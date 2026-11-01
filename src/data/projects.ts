@@ -1,0 +1,475 @@
+import type { FreelanceProject, Proposal } from "@/types";
+import { daysAgo, daysFromNow, sk } from "./helpers";
+
+/**
+ * 10 freelance projects: 5 in progress (each backs a contract), 1 completed,
+ * 3 open (with pending proposals) and 1 draft.
+ */
+export const projects: FreelanceProject[] = [
+  {
+    id: "proj-001",
+    clientCompanyId: "co-001",
+    postedBy: "usr-e-001",
+    title: "Audit & gas-optimise an ERC-4626 vault",
+    description:
+      "Nimbus Labs is preparing a yield vault for mainnet and needs an experienced Solidity engineer to threat-model it, audit the code and reduce gas on deposit, withdraw and harvest paths. Deliverables include a written report with severity ratings, benchmarked optimisations in a pull request and a verification pass on the fixes.",
+    skills: sk("Solidity", "Auditing", "Foundry", "EVM", "DeFi"),
+    budgetType: "fixed",
+    budgetMin: 10000,
+    budgetMax: 12000,
+    currency: "USDC",
+    durationWeeks: 6,
+    blockchain: "Ethereum",
+    status: "in_progress",
+    milestones: [
+      { title: "Threat model & initial audit report", amount: 3500, dueInDays: 14 },
+      { title: "Gas optimisation pass with benchmarks", amount: 4500, dueInDays: 28 },
+      { title: "Fix review & final report", amount: 4000, dueInDays: 42 },
+    ],
+    postedAt: daysAgo(40),
+    deadline: daysAgo(33),
+  },
+  {
+    id: "proj-002",
+    clientCompanyId: "co-001",
+    postedBy: "usr-e-001",
+    title: "Build a wallet-connect onboarding flow in Next.js",
+    description:
+      "Design and implement a three-step onboarding flow for the Nimbus Console: connect a wallet, sign in with Ethereum and pick a rollup network. The flow must support passkey wallets, handle rejected requests gracefully and meet WCAG AA contrast and keyboard requirements.",
+    skills: sk("Next.js", "React", "Wagmi", "Viem", "TypeScript", "Tailwind CSS"),
+    budgetType: "fixed",
+    budgetMin: 8000,
+    budgetMax: 9000,
+    currency: "USDC",
+    durationWeeks: 5,
+    blockchain: "Base",
+    status: "in_progress",
+    milestones: [
+      { title: "Design review & connection architecture", amount: 2500, dueInDays: 10 },
+      { title: "Implement onboarding flow (Wagmi + SIWE)", amount: 4000, dueInDays: 24 },
+      { title: "QA, accessibility pass & documentation", amount: 2500, dueInDays: 35 },
+    ],
+    postedAt: daysAgo(30),
+    deadline: daysAgo(24),
+  },
+  {
+    id: "proj-003",
+    clientCompanyId: "co-002",
+    postedBy: "usr-e-002",
+    title: "Subgraph for lending markets",
+    description:
+      "Helix Protocol needs a production-grade subgraph that indexes isolated markets, user positions, interest accruals and liquidations. The subgraph should expose clean GraphQL entities for dashboards and include tests, monitoring hooks and documentation.",
+    skills: sk("The Graph", "GraphQL", "TypeScript", "DeFi", "PostgreSQL"),
+    budgetType: "fixed",
+    budgetMin: 6500,
+    budgetMax: 7200,
+    currency: "USDC",
+    durationWeeks: 6,
+    blockchain: "Arbitrum",
+    status: "in_progress",
+    milestones: [
+      { title: "Schema design & market indexing", amount: 2400, dueInDays: 12 },
+      { title: "Positions & liquidations indexing", amount: 2800, dueInDays: 28 },
+      { title: "Deployment, monitoring & docs", amount: 2000, dueInDays: 40 },
+    ],
+    postedAt: daysAgo(28),
+    deadline: daysAgo(21),
+  },
+  {
+    id: "proj-004",
+    clientCompanyId: "co-001",
+    postedBy: "usr-e-001",
+    title: "Foundry invariant & fuzzing suite for staking contracts",
+    description:
+      "Create a comprehensive invariant and fuzz test suite for the Nimbus staking and rewards contracts. The work includes handlers, ghost variables, a coverage report and documentation that lets the in-house team extend the suite.",
+    skills: sk("Solidity", "Foundry", "Auditing", "EVM", "DeFi"),
+    budgetType: "fixed",
+    budgetMin: 5500,
+    budgetMax: 6000,
+    currency: "USDC",
+    durationWeeks: 5,
+    blockchain: "Base",
+    status: "in_progress",
+    milestones: [
+      { title: "Handlers & core invariants", amount: 2000, dueInDays: 10 },
+      { title: "Rewards & edge-case fuzzing", amount: 2200, dueInDays: 24 },
+      { title: "Coverage report & team handoff", amount: 1800, dueInDays: 35 },
+    ],
+    postedAt: daysAgo(24),
+    deadline: daysAgo(19),
+  },
+  {
+    id: "proj-005",
+    clientCompanyId: "co-005",
+    postedBy: "usr-e-005",
+    title: "Design system for a DeFi dashboard",
+    description:
+      "Lumen Wallet needed a token-based Figma design system for its upcoming DeFi dashboard, including light and dark themes, data-visualisation styles and documented React component specs. The project is complete and delivered.",
+    skills: sk("Figma", "UX Research", "Tailwind CSS", "React", "JavaScript"),
+    budgetType: "fixed",
+    budgetMin: 7000,
+    budgetMax: 8000,
+    currency: "USDC",
+    durationWeeks: 6,
+    blockchain: "Polygon",
+    status: "completed",
+    milestones: [
+      { title: "Audit & foundations (tokens, type, colour)", amount: 2500, dueInDays: 14 },
+      { title: "Core components & chart styles", amount: 3000, dueInDays: 28 },
+      { title: "Documentation & developer handoff", amount: 2500, dueInDays: 42 },
+    ],
+    postedAt: daysAgo(80),
+    deadline: daysAgo(73),
+  },
+  {
+    id: "proj-006",
+    clientCompanyId: "co-004",
+    postedBy: "usr-e-004",
+    title: "Oracle adapter & keeper bot for perpetuals",
+    description:
+      "Parallax Finance requires an oracle adapter contract with staleness and deviation guards, plus a Go keeper bot that settles funding and triggers liquidations. The bot must be observable and safe to run on multiple replicas.",
+    skills: sk("Solidity", "Go", "Node.js", "TypeScript", "EVM"),
+    budgetType: "fixed",
+    budgetMin: 8,
+    budgetMax: 9,
+    currency: "ETH",
+    durationWeeks: 7,
+    blockchain: "Arbitrum",
+    status: "in_progress",
+    milestones: [
+      { title: "Oracle adapter contract & tests", amount: 3, dueInDays: 14 },
+      { title: "Keeper bot with funding settlement", amount: 3.5, dueInDays: 35 },
+      { title: "Liquidation triggers & observability", amount: 2.5, dueInDays: 49 },
+    ],
+    postedAt: daysAgo(55),
+    deadline: daysAgo(49),
+  },
+  {
+    id: "proj-007",
+    clientCompanyId: "co-001",
+    postedBy: "usr-e-001",
+    title: "Gas profiling & Foundry migration for a legacy Hardhat suite",
+    description:
+      "Migrate the Nimbus bridge contracts' legacy Hardhat tests to Foundry, add gas snapshots in CI and flag the top ten most expensive code paths with suggested fixes. A good fit for someone who loves test infrastructure.",
+    skills: sk("Foundry", "Hardhat", "Solidity", "TypeScript", "EVM"),
+    budgetType: "fixed",
+    budgetMin: 4500,
+    budgetMax: 6000,
+    currency: "USDC",
+    durationWeeks: 4,
+    blockchain: "Ethereum",
+    status: "open",
+    milestones: [
+      { title: "Test inventory & Foundry scaffolding", amount: 1500, dueInDays: 7 },
+      { title: "Migrate suites & add gas snapshots in CI", amount: 2500, dueInDays: 21 },
+      { title: "Gas hot-spot report & fixes", amount: 1500, dueInDays: 28 },
+    ],
+    postedAt: daysAgo(9),
+    deadline: daysFromNow(21),
+  },
+  {
+    id: "proj-008",
+    clientCompanyId: "co-001",
+    postedBy: "usr-e-001",
+    title: "Cross-chain bridge UI components (React + Wagmi)",
+    description:
+      "Build a reusable set of React components for bridging assets across Nimbus rollups: network selector, amount input with fee estimation, status tracker and failure recovery. Hourly engagement of roughly 120 hours over eight weeks.",
+    skills: sk("React", "Wagmi", "Viem", "TypeScript", "Next.js", "Tailwind CSS"),
+    budgetType: "hourly",
+    budgetMin: 70,
+    budgetMax: 100,
+    currency: "USD",
+    durationWeeks: 8,
+    blockchain: "Arbitrum",
+    status: "open",
+    milestones: [
+      { title: "Component architecture & network selector", amount: 3200, dueInDays: 14 },
+      { title: "Amount input, fee estimation & status tracker", amount: 3200, dueInDays: 35 },
+      { title: "Failure recovery & storybook docs", amount: 3200, dueInDays: 56 },
+    ],
+    postedAt: daysAgo(6),
+    deadline: daysFromNow(25),
+  },
+  {
+    id: "proj-009",
+    clientCompanyId: "co-003",
+    postedBy: "usr-e-003",
+    title: "Governance analytics dashboard for delegates",
+    description:
+      "Orbit DAO wants a public dashboard showing delegation graphs, proposal participation and voting-power concentration. Delegates should be able to compare their record with peers. Part-time hourly work funded by a community grant.",
+    skills: sk("Next.js", "TypeScript", "GraphQL", "The Graph", "Data Analysis"),
+    budgetType: "hourly",
+    budgetMin: 55,
+    budgetMax: 85,
+    currency: "DAI",
+    durationWeeks: 6,
+    blockchain: "Ethereum",
+    status: "open",
+    milestones: [
+      { title: "Data model & subgraph queries", amount: 1800, dueInDays: 14 },
+      { title: "Delegation graph & participation views", amount: 2400, dueInDays: 28 },
+      { title: "Delegate comparison & launch", amount: 1800, dueInDays: 42 },
+    ],
+    postedAt: daysAgo(5),
+    deadline: daysFromNow(28),
+  },
+  {
+    id: "proj-010",
+    clientCompanyId: "co-002",
+    postedBy: "usr-e-002",
+    title: "Liquidation bot post-mortem & simulation toolkit",
+    description:
+      "Draft project: analyse three recent liquidation cascades, build a Python toolkit to replay them against Helix parameters and recommend threshold changes. Awaiting budget approval before it opens to proposals.",
+    skills: sk("Python", "DeFi", "Data Analysis", "Solidity"),
+    budgetType: "fixed",
+    budgetMin: 4000,
+    budgetMax: 5000,
+    currency: "USD",
+    durationWeeks: 4,
+    blockchain: "Arbitrum",
+    status: "draft",
+    milestones: [
+      { title: "Cascade data collection & replay harness", amount: 1500, dueInDays: 10 },
+      { title: "Simulation toolkit", amount: 2000, dueInDays: 21 },
+      { title: "Parameter recommendations report", amount: 1000, dueInDays: 28 },
+    ],
+    postedAt: daysAgo(2),
+    deadline: daysFromNow(35),
+  },
+];
+
+export const proposals: Proposal[] = [
+  // ---- proj-001 (in progress with Aria) ----
+  {
+    id: "prop-001",
+    projectId: "proj-001",
+    freelancerId: "cand-001",
+    price: 12000,
+    currency: "USDC",
+    deliveryWeeks: 6,
+    coverLetter:
+      "I have written and audited ERC-4626 vaults for the last three years, including an inflation-attack mitigation and a harvest path that cut gas by 28%. I would deliver the threat model first, then optimise with Foundry gas snapshots so every change is measurable. I can start this week.",
+    status: "accepted",
+    submittedAt: daysAgo(38, 11),
+  },
+  {
+    id: "prop-002",
+    projectId: "proj-001",
+    freelancerId: "cand-003",
+    price: 11000,
+    currency: "USDC",
+    deliveryWeeks: 5,
+    coverLetter:
+      "Vault audits are my specialty, and I would complete the report in five weeks with a focus on donation attacks and rounding. I do less gas work, so I would propose a lighter optimisation scope.",
+    status: "rejected",
+    submittedAt: daysAgo(37, 14),
+  },
+
+  // ---- proj-002 (in progress with Yuki) ----
+  {
+    id: "prop-003",
+    projectId: "proj-002",
+    freelancerId: "cand-005",
+    price: 9000,
+    currency: "USDC",
+    deliveryWeeks: 5,
+    coverLetter:
+      "Onboarding flows are what I do all day. I would ship the connect, sign-in and network selection steps with passkey support and thoroughly handled error states, then finish with an accessibility audit. My ConnectKit Lite repo shows how I structure this.",
+    status: "accepted",
+    submittedAt: daysAgo(28, 9),
+  },
+  {
+    id: "prop-004",
+    projectId: "proj-002",
+    freelancerId: "cand-008",
+    price: 8200,
+    currency: "USDC",
+    deliveryWeeks: 6,
+    coverLetter:
+      "I can deliver the flow in Next.js with Wagmi and add a small API route for SIWE sessions. I would need an extra week for accessibility testing.",
+    status: "rejected",
+    submittedAt: daysAgo(27, 16),
+  },
+
+  // ---- proj-003 (in progress with Aria) ----
+  {
+    id: "prop-005",
+    projectId: "proj-003",
+    freelancerId: "cand-001",
+    price: 7200,
+    currency: "USDC",
+    deliveryWeeks: 6,
+    coverLetter:
+      "I built a governance subgraph with delegation history and understand lending accounting well enough to model positions correctly. I would begin with entity design reviewed by your risk team, then add liquidations and handler tests.",
+    status: "accepted",
+    submittedAt: daysAgo(26, 10),
+  },
+  {
+    id: "prop-006",
+    projectId: "proj-003",
+    freelancerId: "cand-013",
+    price: 6500,
+    currency: "USDC",
+    deliveryWeeks: 7,
+    coverLetter:
+      "My open lending-markets subgraph covers many of the same events. I would adapt it to Helix's isolated-market model and add data-quality tests, delivering over seven weeks.",
+    status: "rejected",
+    submittedAt: daysAgo(25, 13),
+  },
+
+  // ---- proj-004 (in progress with Zainab) ----
+  {
+    id: "prop-007",
+    projectId: "proj-004",
+    freelancerId: "cand-020",
+    price: 6000,
+    currency: "USDC",
+    deliveryWeeks: 5,
+    coverLetter:
+      "Invariant testing for staking and vault contracts is what I do daily. My Fuzz Starter template already includes handlers and ghost variables, so I can focus time on your rewards logic and edge cases.",
+    status: "accepted",
+    submittedAt: daysAgo(22, 10),
+  },
+  {
+    id: "prop-008",
+    projectId: "proj-004",
+    freelancerId: "cand-009",
+    price: 5800,
+    currency: "USDC",
+    deliveryWeeks: 4,
+    coverLetter:
+      "I can write the suite in four weeks, focusing on reward accrual invariants. I may be starting a full-time role soon, so I would need to confirm availability.",
+    status: "withdrawn",
+    submittedAt: daysAgo(21, 15),
+  },
+
+  // ---- proj-005 (completed with Hannah) ----
+  {
+    id: "prop-009",
+    projectId: "proj-005",
+    freelancerId: "cand-012",
+    price: 8000,
+    currency: "USDC",
+    deliveryWeeks: 6,
+    coverLetter:
+      "I have built and documented design systems for fintech and wallet products. I would start with an audit of your current UI, define tokens and then ship components with specs developers can implement directly.",
+    status: "accepted",
+    submittedAt: daysAgo(78, 9),
+  },
+  {
+    id: "prop-010",
+    projectId: "proj-005",
+    freelancerId: "cand-005",
+    price: 7500,
+    currency: "USDC",
+    deliveryWeeks: 5,
+    coverLetter:
+      "As a frontend engineer who also cares about design systems, I could deliver the tokens and a coded component library in React and Tailwind in five weeks.",
+    status: "rejected",
+    submittedAt: daysAgo(77, 12),
+  },
+
+  // ---- proj-006 (nearly done with Marcus) ----
+  {
+    id: "prop-011",
+    projectId: "proj-006",
+    freelancerId: "cand-002",
+    price: 9,
+    currency: "ETH",
+    deliveryWeeks: 7,
+    coverLetter:
+      "I have built relayers and keeper-style services in Go with multi-replica safety and strong observability. I would pair the Solidity adapter with a bot that uses leader election, structured logs and metrics from day one.",
+    status: "accepted",
+    submittedAt: daysAgo(53, 10),
+  },
+
+  // ---- proj-007 (open, co-001) ----
+  {
+    id: "prop-012",
+    projectId: "proj-007",
+    freelancerId: "cand-001",
+    price: 5200,
+    currency: "USDC",
+    deliveryWeeks: 4,
+    coverLetter:
+      "I have migrated two Hardhat suites to Foundry and set up gas snapshots in CI. I can start with a test inventory and priority list, then migrate in batches so your team always has a working suite.",
+    status: "pending",
+    submittedAt: daysAgo(3, 11),
+  },
+  {
+    id: "prop-013",
+    projectId: "proj-007",
+    freelancerId: "cand-020",
+    price: 5500,
+    currency: "USDC",
+    deliveryWeeks: 4,
+    coverLetter:
+      "Test infrastructure is a favourite part of my work. I would migrate the suites, add fuzz variants for the riskiest bridge functions and provide a gas report with recommended fixes.",
+    status: "pending",
+    submittedAt: daysAgo(5, 14),
+  },
+  {
+    id: "prop-014",
+    projectId: "proj-007",
+    freelancerId: "cand-009",
+    price: 4900,
+    currency: "USDC",
+    deliveryWeeks: 3,
+    coverLetter:
+      "I can move quickly on this and have done similar migrations for DeFi protocols. I would deliver in three weeks and concentrate on gas hot spots in message-passing code.",
+    status: "pending",
+    submittedAt: daysAgo(4, 9),
+  },
+
+  // ---- proj-008 (open hourly, co-001) ----
+  {
+    id: "prop-015",
+    projectId: "proj-008",
+    freelancerId: "cand-005",
+    price: 85,
+    currency: "USD",
+    deliveryWeeks: 8,
+    coverLetter:
+      "I would build the bridge components with accessibility and failure states in mind, using Wagmi and Viem and documenting everything in Storybook. My transaction-preview work translates directly to fee estimation and status tracking.",
+    status: "pending",
+    submittedAt: daysAgo(4, 10),
+  },
+  {
+    id: "prop-016",
+    projectId: "proj-008",
+    freelancerId: "cand-008",
+    price: 75,
+    currency: "USD",
+    deliveryWeeks: 8,
+    coverLetter:
+      "I have built multi-chain interfaces with custom subgraph backends. I can deliver a robust component library and handle the data layer for status tracking if needed.",
+    status: "pending",
+    submittedAt: daysAgo(3, 15),
+  },
+
+  // ---- proj-009 (open hourly, Orbit DAO) ----
+  {
+    id: "prop-017",
+    projectId: "proj-009",
+    freelancerId: "cand-013",
+    price: 70,
+    currency: "DAI",
+    deliveryWeeks: 6,
+    coverLetter:
+      "My DAO Treasury Monitor already visualises concentration risk for 25 DAOs. I would apply the same approach to delegation graphs and voting-power distribution, with a documented subgraph layer.",
+    status: "pending",
+    submittedAt: daysAgo(3, 8),
+  },
+  {
+    id: "prop-018",
+    projectId: "proj-009",
+    freelancerId: "cand-014",
+    price: 75,
+    currency: "DAI",
+    deliveryWeeks: 6,
+    coverLetter:
+      "I study governance incentives and could shape the dashboard around metrics that matter for delegate accountability. I would pair with an engineer on the front-end and own the analytical design and data definitions.",
+    status: "pending",
+    submittedAt: daysAgo(2, 13),
+  },
+];
